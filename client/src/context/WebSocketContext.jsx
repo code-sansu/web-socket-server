@@ -21,10 +21,7 @@ const WebSocketContext = createContext();
 
   useEffect(() => {
     
-   
-    const WS_URL = import.meta.env.VITE_WS_URL;
-    const ws = new WebSocket(WS_URL);
-    //const ws = new WebSocket('wss://web-socket-server-zq3g.onrender.com/');
+    const ws = new WebSocket('wss://web-socket-server-zq3g.onrender.com/');
     socketRef.current = ws;
     setSocket(ws);
      
