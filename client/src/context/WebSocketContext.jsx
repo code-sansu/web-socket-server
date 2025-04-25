@@ -23,7 +23,7 @@ const WebSocketContext = createContext();
     
    
 
-    const ws = new WebSocket('ws://localhost:3000');
+    const ws = new WebSocket('ws://localhost:10000');
     socketRef.current = ws;
     setSocket(ws);
      
