@@ -10,8 +10,18 @@ const {logStateChanges} =require ("../logService");
 
 //const logFilePath = path.join(__dirname, '..', 'websocket.log');
 
-const redisClient = redis.createClient();
-redisClient.connect().catch(console.error);
+//const redisClient = redis.createClient();
+//redisClient.connect().catch(console.error);
+
+const redisUrl = process.env.REDIS_URL || 'redis://default:Drz9ucmAI41UMpIAy7XDP488vN0ehpXd@redis-14413.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:14413';
+
+const redisClient = redis.createClient({
+  url: redisUrl
+});
+
+redisClient.connect()
+  .then(() => console.log('Connected to Redis!'))
+  .catch(console.error);
 
 
 async function handleConnection(ws, wss) {
