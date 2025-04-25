@@ -4,6 +4,16 @@ const WebSocket = require("ws");
 const http = require('http');
 const { handleConnection } = require("./Services/websocketServices.js");
 const { logMessage } = require("./Services/logServices.js");
+const express = require("express");
+const path = require("path");
+
+const app = express();
+
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
 
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
