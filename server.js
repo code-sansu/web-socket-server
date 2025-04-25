@@ -14,8 +14,8 @@ const wss = new WebSocket.Server({ server });
 
 wss.on("connection", (ws) => handleConnection(ws, wss));
 
-const PORT = process.env.PORT || 10000;
-server.listen(PORT, "0.0.0.0" ,() => {
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, "0.0.0.0" , () => {
     console.log(`WebSocket server is listening on port ${PORT}`);
     logMessage(`Server started on port ${PORT}`);
 });

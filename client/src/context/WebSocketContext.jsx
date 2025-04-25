@@ -23,7 +23,7 @@ const WebSocketContext = createContext();
     
    
 
-    const ws = new WebSocket('ws://web-socket-server-zq3g.onrender.com');
+    const ws = new WebSocket('ws://localhost:3000');
     socketRef.current = ws;
     setSocket(ws);
      
