@@ -1,0 +1,49 @@
+SEQUENCE OF MESSAGE EXCHANGE :
+
+1. List of active clients:
+  * on connection stored in the redis , on disconnection removed from redis memory
+   
+   CLIENT side Request
+    --> sends a message over the connection "list_clients"
+    
+    JSON : { "type" : "list_clients" }
+
+   Websocket SERVER :
+    --> holds active clients , groups , client states .
+    --> on message ("list_clients") , server fetches the  list of clients from redis
+    --> sends message "list_clients" to the client , with client list 
+    
+    JSON:{
+          "type" : "list_clients" ,
+          "clients" : {[client1 ,client2, client3] }
+          }
+         
+
+   CLIENT side (hook) :
+    --> on recieving the message "list_clients" from the server , sets the clients state with the list in the payload    
+    -->this clients list is then displated in react frontend
+
+2. Toggle Music button on the Dashboard
+
+   CLIENT side request: (DASHBOARD)
+    --> sends message "admin_command" , with payload ({clientId ,command{action : 'toggle_music'}})
+   
+   JSON:{
+       "type" : "admin_command",
+       "payload" : {
+        "clientId" : "clientABC",
+        "command" : {
+          "action": "toggle_music"
+        }
+       }
+   }
+
+ 
+   Server Side: (WEBSOCKET)
+    -->on message(type:"admin_command" and action:toggle_music) , fetches the client state corresponding to the clientId
+    -->toggles the music state and stores the updated state in redis.
+    --> sends a message 'client_state_update' with clientId and updated state in the payload;
+
+   CLient side on message(dashboard hook)
+   --> on recieving message "client_state_update" , sets the client state with the updated state 
+   -->this updated state is reflected on the dashboard 

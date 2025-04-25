@@ -1,0 +1,71 @@
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    font-family: sans-serif;
+  }
+  
+  .sidebar {
+    width: 35%;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+  }
+  
+  .sidebar h2 {
+    margin-bottom: 20px;
+  }
+  
+  .client-card {
+    background: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .client-card:hover {
+    background-color: #eaeaea;
+  }
+  
+  .client-card.active {
+    border: 2px solid #4a90e2;
+    background-color: #eef6ff;
+  }
+  
+  .details {
+    flex: 1;
+    padding: 40px;
+    background-color: #fff;
+    overflow-y: auto;
+  }
+  
+  .placeholder {
+    color: #888;
+    font-size: 18px;
+    margin-top: 100px;
+    text-align: center;
+  }
+  
+  .buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 10px 16px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #357ac9;
+  }
+  
