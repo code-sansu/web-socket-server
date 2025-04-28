@@ -5,10 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npx vite build",
+    "build": "vite build",
     "lint": "eslint .",
-    "start": "serve -s client/dist",
-    "preview": "npx vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
   "vite": "^4.5.13",
