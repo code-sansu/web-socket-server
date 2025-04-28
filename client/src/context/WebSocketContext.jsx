@@ -21,7 +21,7 @@ const WebSocketContext = createContext();
 
   useEffect(() => {
     
-    const ws = new WebSocket('wss://web-socket-client-fwia.onrender.com/');
+    const ws = new WebSocket('import.meta.env.VITE_WS_URL');
     socketRef.current = ws;
     setSocket(ws);
      
