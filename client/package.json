@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "npx vite build",
     "lint": "eslint .",
-    "start": "serve -s client/dist -l $PORT",
+    "start": "serve -s client/dist",
     "preview": "npx vite preview"
   },
   "dependencies": {
