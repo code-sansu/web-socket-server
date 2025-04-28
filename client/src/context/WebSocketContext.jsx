@@ -20,8 +20,8 @@ const WebSocketContext = createContext();
   const socketRef = useRef(null);
 
   useEffect(() => {
-    
-    const ws = new WebSocket('import.meta.env.VITE_WS_URL');
+    const wsURL = import.meta.env.VITE_WS_URL;
+    const ws = new WebSocket(wsURL);
     socketRef.current = ws;
     setSocket(ws);
      
