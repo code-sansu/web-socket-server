@@ -1,9 +1,8 @@
 {
+    "root": "client/build",
     "rewrites": [
-      {
-        "source": "/**",
-        "destination": "/index.html"
-      }
+      { "source": "/server/*", "destination": "/index.html" },
+      { "source": "/client/*", "destination": "/index.html" }
     ]
   }
   
