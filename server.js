@@ -1,3 +1,44 @@
+const express = require('express');
+const WebSocket = require('ws');
+const path = require('path');
+const http = require('http');
+const { handleConnection } = require("./Services/websocketServices.js");
+const { logMessage } = require("./Services/logServices.js");
+
+const app = express();
+
+// Serve static files from React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// WebSocket setup
+const wss = new WebSocket.Server({ server });
+
+wss.on("connection", (ws) => {
+  handleConnection(ws, wss);
+
+  // Ping/pong
+  const interval = setInterval(() => {
+    if (ws.readyState === WebSocket.OPEN) ws.ping();
+  }, 30000);
+
+  ws.on('pong', () => console.log('Pong received from client'));
+  ws.on('close', () => clearInterval(interval));
+});
+
+// Catch-all to serve React index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`WebSocket + React server is listening on port ${PORT}`);
+  logMessage(`Server started on port ${PORT}`);
+});
+
 /*
 const express = require('express');
 const WebSocket = require('ws');
@@ -30,6 +71,7 @@ server.listen(PORT, "0.0.0.0", () => {
 });
 */
 
+/*
 const WebSocket = require("ws");
 const http = require('http');
 const { handleConnection } = require("./Services/websocketServices.js");
@@ -69,3 +111,4 @@ server.listen(PORT, "0.0.0.0" , () => {
     console.log(`WebSocket server is listening on port ${PORT}`);
     logMessage(`Server started on port ${PORT}`);
 });
+*/
