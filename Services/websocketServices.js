@@ -15,16 +15,48 @@ const pathToRegexp = require('path-to-regexp');
 //const redisClient = redis.createClient();
 //redisClient.connect().catch(console.error);
 
+const { createClient } = require('redis');
+
 const redisUrl = process.env.REDIS_URL || 'redis://default:Drz9ucmAI41UMpIAy7XDP488vN0ehpXd@redis-14413.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:14413';
 
+const redisClient = createClient({
+  url: redisUrl,
+  socket: {
+    reconnectStrategy: (retries) => Math.min(retries * 100, 3000),
+    keepAlive: 5000, // optional, sets TCP keepalive
+  },
+});
+
+// Better visibility
+redisClient.on('connect', () => console.log('Redis client connecting...'));
+redisClient.on('ready', () => console.log('Redis client ready'));
+redisClient.on('reconnecting', () => console.log('Redis client reconnecting...'));
+redisClient.on('end', () => console.log('Redis connection closed'));
+redisClient.on('error', (err) => console.error('Redis error:', err));
+
+// Connect once
+redisClient.connect()
+  .then(() => console.log('Connected to Redis'))
+  .catch(console.error);
+
+// Periodic ping to avoid idle timeouts (optional but helpful)
+setInterval(() => {
+  redisClient.ping()
+    .then()
+    .catch(err => console.error('Ping error:', err));
+}, 30000); // 30 seconds
+
+
+/*
 const redisClient = redis.createClient({
   url: redisUrl
 });
 
+
 redisClient.connect()
   .then(() => console.log('Connected to Redis!'))
   .catch(console.error);
-
+*/
 
 async function handleConnection(ws, wss) {
   

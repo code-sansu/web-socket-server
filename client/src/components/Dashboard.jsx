@@ -33,7 +33,16 @@ const Dashboard = () => {
       [clientId]: !isRunning,
     }));
   };
-  
+
+const clusterOwnerMap = {};
+
+Object.entries(clients).forEach(([id, clientState]) => {
+  if (clientState?.eRideGrid) {
+    if (!clusterOwnerMap[clientState.clusterId]) {
+      clusterOwnerMap[clientState.clusterId] = id; // First client with eRideGrid ON
+    }
+  }
+}); 
   
 
   return (
@@ -42,14 +51,13 @@ const Dashboard = () => {
       {/* Left Panel*/ }
       <div className="sidebar">
         <h2>Clients</h2>
-
-
+        <div className="button-container">
        <button
        onClick={isSequentialRunning ? stopSequentialTest : startSequentialTest}
          style={{
          backgroundColor: isSequentialRunning ? 'grey' : 'lightblue',
          color: 'white',
-         padding: '10px 16px',
+         padding: '6px 10px',
          border: 'none',
          borderRadius: '6px',
          cursor: 'pointer',
@@ -121,7 +129,8 @@ const Dashboard = () => {
     : Object.keys(clients).every(id => isTestRunningClients[id])
   ) ? '💣 Stop Test' : '🏁 Start Test'}
 </button>
- <p></p>
+
+ </div>
 
 
 
@@ -135,6 +144,7 @@ const Dashboard = () => {
             <input
               type="checkbox"
               checked={selectedClients.includes(id)}
+              onClick={(e) => e.stopPropagation()}
               onChange={() => handleCheckboxChange(id)}
             />
             <strong>{id}</strong>
@@ -146,7 +156,7 @@ const Dashboard = () => {
                <Dot  color={state?.lowConnectionPower ? 'red' : 'grey'} />
            </p>
            <p>eRIDEGRID:  
-               <Dot  color={state?.eRideGrid ? 'blue' : 'grey'} />
+              <Dot color={clusterOwnerMap[state.clusterId] === id ? 'blue' : 'grey'} />
            </p>
           </div>
         ))}
@@ -232,7 +242,9 @@ const Dashboard = () => {
             
                 <p>Active Group Id:{clients[selectedClient]?.activeGroupId}</p>
                 <p>Active Group Name :{clients[selectedClient]?.activeGroupName}</p>
-                <p>eRideGrid: {clients[selectedClient]?.eRideGrid ? 'On' : 'Off'}</p>
+                <p>eRIDEGRID:  
+                  <Dot color={clusterOwnerMap[clients[selectedClient]?.clusterId] === selectedClient ? 'blue' : 'grey'} />
+                </p>
              
           </ul>
         </div>

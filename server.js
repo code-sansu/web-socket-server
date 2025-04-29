@@ -43,7 +43,26 @@ const server = http.createServer((req, res) => {
 
 const wss = new WebSocket.Server({ server });
 
-wss.on("connection", (ws) => handleConnection(ws, wss));
+wss.on("connection", (ws) => {
+  handleConnection(ws, wss);
+
+  // Ping the client every 30 seconds
+  const interval = setInterval(() => {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.ping(); // Send ping to client
+    }
+  }, 30000);
+
+  // Listen for pong from the client (acknowledging the ping)
+  ws.on('pong', () => {
+    console.log('Pong received from client');
+  });
+
+  // If the client disconnects, clear the ping interval
+  ws.on('close', () => {
+    clearInterval(interval);
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, "0.0.0.0" , () => {
