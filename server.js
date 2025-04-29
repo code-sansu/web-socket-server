@@ -1,3 +1,4 @@
+/*
 const express = require('express');
 const WebSocket = require('ws');
 const path = require('path');
@@ -27,8 +28,8 @@ server.listen(PORT, "0.0.0.0", () => {
   console.log(`WebSocket server is listening on port ${PORT}`);
   logMessage(`Server started on port ${PORT}`);
 });
+*/
 
-/*
 const WebSocket = require("ws");
 const http = require('http');
 const { handleConnection } = require("./Services/websocketServices.js");
@@ -49,4 +50,3 @@ server.listen(PORT, "0.0.0.0" , () => {
     console.log(`WebSocket server is listening on port ${PORT}`);
     logMessage(`Server started on port ${PORT}`);
 });
-*/
